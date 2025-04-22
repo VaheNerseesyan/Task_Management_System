@@ -1,0 +1,184 @@
+.taskCard {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.taskCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.todoCard {
+    border-left-color: #3b82f6;
+    background: linear-gradient(to right, #f8fafc 0%, white 15%);
+}
+
+.doingCard {
+    border-left-color: #f59e0b;
+    background: linear-gradient(to right, #fffbeb 0%, white 15%);
+}
+
+.doneCard {
+    border-left-color: #10b981;
+    background: linear-gradient(to right, #ecfdf5 0%, white 15%);
+}
+
+.taskTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 24px;
+}
+
+.taskTitle::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.todoCard .taskTitle::before {
+    background-color: #3b82f6;
+}
+
+.doingCard .taskTitle::before {
+    background-color: #f59e0b;
+}
+
+.doneCard .taskTitle::before {
+    background-color: #10b981;
+}
+
+.taskDescription {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #4b5563;
+    margin-bottom: 16px;
+    padding-left: 24px;
+    position: relative;
+}
+
+.taskDescription::before {
+    content: "•";
+    position: absolute;
+    left: 8px;
+    color: #9ca3af;
+}
+
+.taskMeta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    padding-left: 24px;
+}
+
+.taskBadge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    text-transform: capitalize;
+}
+
+.priorityLow {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.priorityMedium {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.priorityHigh {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.assignee {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #4b5563;
+    border-left: 3px solid #e5e7eb;
+}
+
+.assigneeAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #111827;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.assigneeName {
+    font-weight: 500;
+}
+
+.assigneeLabel {
+    font-weight: 600;
+    color: #6b7280;
+    margin-right: 4px;
+}
+
+.taskCard::after {
+    content: attr(data-status);
+    position: absolute;
+    top: 12px;
+    right: -24px;
+    width: 100px;
+    padding: 4px 0;
+    background-color: currentColor;
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transform: rotate(45deg);
+    transform-origin: left;
+}
+
+.todoCard::after {
+    background-color: #3b82f6;
+    content: "To Do";
+}
+
+.doingCard::after {
+    background-color: #f59e0b;
+    content: "Doing";
+}
+
+.doneCard::after {
+    background-color: #10b981;
+    content: "Done";
+}

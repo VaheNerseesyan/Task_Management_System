@@ -1,56 +1,91 @@
-/* Tasks.module.css */
 .container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 32px;
+    background-color: #f9fafb;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
+}
+
+.appTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    letter-spacing: -0.5px;
 }
 
 .addButton {
-    background-color: #4CAF50;
+    background-color: #4f46e5;
     color: white;
     border: none;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .addButton:hover {
-    background-color: #45a049;
+    background-color: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .columns {
     display: flex;
-    gap: 20px;
+    gap: 32px;
+    overflow-x: auto;
+    padding-bottom: 24px;
+    padding-top: 16px;
+    scroll-behavior: smooth;
 }
 
 .column {
     flex: 1;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 320px;
+    height: 100%; 
+    min-height: 80px;
+    background: linear-gradient(145deg, #f9fafb, #ffffff);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.todoColumn {
+    border-top: 6px solid #3b82f6;
+    border-left: 4px solid #3b82f6;
+}
+
+.doingColumn {
+    border-top: 6px solid #f59e0b;
+    border-left: 4px solid #f59e0b;
+}
+
+.doneColumn {
+    border-top: 6px solid #10b981;
+    border-left: 4px solid #10b981;
 }
 
 .columnTitle {
-    color: #333;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.taskList {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px dashed #d1d5db;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
 }
 
 .modalOverlay {
@@ -59,32 +94,37 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(17, 24, 39, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    backdrop-filter: blur(4px);
 }
 
 .modalContent {
     background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    width: 500px;
-    max-width: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    width: 480px;
+    max-width: 95%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 24px;
+    animation: fadeIn 0.2s ease-out;
 }
+
+
 
 .modalHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
 
 .modalTitle {
-    font-size: 24px;
-    color: #333;
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
     margin: 0;
 }
 
@@ -93,7 +133,12 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-    color: #666;
+    color: #6b7280;
+    transition: color 0.2s;
+}
+
+.closeButton:hover {
+    color: #111827;
 }
 
 .formGroup {
@@ -103,39 +148,226 @@
 .formLabel {
     display: block;
     margin-bottom: 8px;
+    font-size: 14px;
+    color: #4b5563;
     font-weight: 500;
-    color: #555;
 }
 
-.formInput {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
+.formInput,
 .formSelect {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #111827;
+    background-color: #f9fafb;
+    transition: all 0.2s ease;
+}
+
+.formInput:focus,
+.formSelect:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
     background-color: white;
 }
 
 .submitButton {
-    background-color: #4CAF50;
+    background-color: #4f46e5;
     color: white;
     border: none;
     padding: 12px 20px;
-    border-radius: 4px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    font-size: 16px;
     width: 100%;
-    transition: background-color 0.3s;
+    transition: all 0.2s ease;
+    margin-top: 8px;
 }
 
 .submitButton:hover {
-    background-color: #45a049;
+    background-color: #4338ca;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.taskCard {
+    background-color: white;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    border-left: 4px solid;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.taskCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.taskCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.taskCard:hover::before {
+    opacity: 1;
+}
+
+.todoCard {
+    border-left-color: #3b82f6;
+    background-color: #f8fafc;
+}
+
+.doingCard {
+    border-left-color: #f59e0b;
+    background-color: #fffbeb;
+}
+
+.doneCard {
+    border-left-color: #10b981;
+    background-color: #ecfdf5;
+}
+
+.taskTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.taskDescription {
+    font-size: 14px;
+    color: #4b5563;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.taskMeta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.taskBadge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 9999px;
+}
+
+.priorityLow {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.priorityMedium {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.priorityHigh {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.statusBadge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 9999px;
+}
+
+.todoBadge {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.doingBadge {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.doneBadge {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.taskFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.assignee {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.assigneeAvatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #111827;
+}
+
+.assigneeName {
+    font-size: 13px;
+    color: #4b5563;
+}
+
+.taskActions {
+    display: flex;
+    gap: 8px;
+}
+
+.taskButton {
+    border: none;
+    background: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.editButton {
+    color: #4f46e5;
+    background-color: #eef2ff;
+}
+
+.editButton:hover {
+    background-color: #e0e7ff;
+}
+
+.deleteButton {
+    color: #ef4444;
+    background-color: #fee2e2;
+}
+
+.deleteButton:hover {
+    background-color: #fecaca;
 }

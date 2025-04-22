@@ -1,26 +1,28 @@
-import { useState } from "react";
-import style from "./Tasks.module.css";
+import { useEffect, useState } from "react";
+import style from "./Tasks.module.css"
+import AddModal from "../AddModal/AddModal";
 import ToDo from "../ToDo/ToDo";
 import Done from "../Done/Done";
 import Doing from "../Doing/Doing";
-import AddModal from "../AddModal/AddModal";
 
 function Tasks() {
-    const [tasks, setTasks] = useState([])
-
-    const [formData, setFormData] = useState({
-        title: "",
-        description: "",
-        status: "todo",
-        priority: "low",
-        user: ""
-    });
-
+    const [tasks, setTasks] = useState(JSON.parse(localStorage?.getItem("TASKS") ?? "[]"))
     const [isAddMode, setIsAddMode] = useState(false)
     const [titleInput, setTitleInput] = useState("");
     const [descriptionInput, setDescriptionInput] = useState("");
+    const [statusInput, setStatusInput] = useState("todo");
+    const [priority, setPriorityInput] = useState("low");
+    const [userInput, setUserInput] = useState("");
+    
+    
 
     const genereateId = () => Math.random().toString(36).substring(2, 9)
+
+    useEffect(() => {
+        if (tasks.length > 0) {
+            localStorage.setItem("TASKS", JSON.stringify(tasks));
+        }
+    }, [tasks]);
 
     const usersData = [
         { userId: 1, name: "John Doe" },
@@ -36,10 +38,21 @@ function Tasks() {
     ]
 
     const addTask = () => {
-        if (formData.title && formData.description) {
-            setTasks([...tasks, { ...formData, id: genereateId() }])
-            setTitleInput("")
-            setDescriptionInput("")
+        if (titleInput && descriptionInput) {
+            setTasks([...tasks, {
+                id: genereateId(),
+                title: titleInput,
+                description: descriptionInput,
+                status: statusInput || "todo",
+                priority: priority || "low",
+                user: userInput
+            }])
+            setTitleInput("");
+            setDescriptionInput("");
+            setStatusInput("");
+            setPriorityInput("");
+            setUserInput("");
+            setIsAddMode(false);
         }
     }
 
@@ -49,52 +62,56 @@ function Tasks() {
 
     const handleTitleInputChange = (e) => {
         setTitleInput(e.target.value)
-        setFormData(prev => ({ ...prev, title: e.target.value }))
     }
 
     const handleDescriptionInputChange = (e) => {
         setDescriptionInput(e.target.value)
-        setFormData(prev => ({ ...prev, description: e.target.value }))
     }
 
     const handleUserChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }))
+        setUserInput(e.target.value)
     }
 
     const handlePriorityChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }))
+        setPriorityInput(e.target.value)
     }
 
     const handleStatusChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }))
+        setStatusInput(e.target.value)
+    }
+
+    const handleDeleteTask = (taskId) => {
+        setTasks(tasks.filter(task => task.id !== taskId))
     }
 
     console.log(tasks)
 
-
     return (
-        <div>
-            {isAddMode ?
-                (
-                    <>
+        <div className={style.container}>
+            <div className={style.header}>
+                <h1>Task Board</h1>
+                <button className={style.addButton} onClick={toggleAddMode}>
+                    Add Task
+                </button>
+            </div>
+
+            {isAddMode && (
+                <div className={style.modalOverlay}>
+                    <div className={style.modalContent}>
+                        <div className={style.modalHeader}>
+                            <h2 className={style.modalTitle}>Create Task</h2>
+                            <button className={style.closeButton} onClick={toggleAddMode}>
+                                ×
+                            </button>
+                        </div>
                         <AddModal
-                            {...formData}
                             addTask={addTask}
                             usersData={usersData}
                             titleInput={titleInput}
                             descriptionInput={descriptionInput}
+                            status={statusInput}
+                            priority={priority}
+                            user={userInput}
                             handleTitleInputChange={handleTitleInputChange}
                             handleDescriptionInputChange={handleDescriptionInputChange}
                             toggleAddMode={toggleAddMode}
@@ -102,33 +119,48 @@ function Tasks() {
                             handlePriorityChange={handlePriorityChange}
                             handleUserChange={handleUserChange}
                         />
-                    </>
-                ) : (
-                    <>
-                        <button onClick={toggleAddMode}> Add Task </button>
-                        <div>
-                            <h1>To Do</h1>
-                            {tasks.filter(task => task.status === "todo").map((task) => (
-                                <ToDo key={task.id} {...task} usersData={usersData} />
-                            ))}
-                        </div>
-                        <div>
-                            <h1>Doing</h1>
-                            {tasks.filter(task => task.status === "doing").map((task) => (
-                                <Doing key={task.id} {...task} usersData={usersData} />
-                            ))}
-                        </div>
-                        <div>
-                            <h1>Done</h1>
-                            {tasks.filter(task => task.status === "done").map((task) => (
-                                <Done key={task.id} {...task} usersData={usersData} />
-                            ))}
-                        </div>
-                    </>
-                )
-            }
+                    </div>
+                </div>
+            )}
 
-
+            <div className={style.columns}>
+                <div className={`${style.column} ${style.todoColumn}`}>
+                    <h3 className={style.columnTitle}>To Do</h3>
+                    {tasks.filter(task => task.status === "todo").map((task) => (
+                        <ToDo
+                            key={task.id}
+                            id={task.id}
+                            {...task}
+                            usersData={usersData}
+                            handleDeleteTask={handleDeleteTask}
+                        />
+                    ))}
+                </div>
+                <div className={`${style.column} ${style.doingColumn}`}>
+                    <h3 className={style.columnTitle}>Doing</h3>
+                    {tasks.filter(task => task.status === "doing").map((task) => (
+                        <Doing
+                            key={task.id}
+                            id={task.id}
+                            {...task}
+                            usersData={usersData}
+                            handleDeleteTask={handleDeleteTask}
+                        />
+                    ))}
+                </div>
+                <div className={`${style.column} ${style.doneColumn}`}>
+                    <h3 className={style.columnTitle}>Done</h3>
+                    {tasks.filter(task => task.status === "done").map((task) => (
+                        <Done
+                            key={task.id}
+                            id={task.id}
+                            {...task}
+                            usersData={usersData}
+                            handleDeleteTask={handleDeleteTask}
+                        />
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }

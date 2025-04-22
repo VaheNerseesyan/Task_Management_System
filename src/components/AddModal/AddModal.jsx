@@ -1,4 +1,4 @@
-// import style from "./AddModal.module.css";
+import style from "./AddModal.module.css";
 
 function AddModal({
     titleInput,
@@ -12,74 +12,102 @@ function AddModal({
     handleStatusChange,
     handlePriorityChange,
     handleUserChange,
-    addTask,
+    addTask, 
     toggleAddMode
 }) {
     return (
-        <>
-            <div>
-                <label>Title</label>
-                <input
-                    value={titleInput}
-                    onChange={handleTitleInputChange}
-                    type="text"
-                    placeholder="Enter task title"
-                />
-            </div>
-            <div >
-                <label>Description</label>
-                <input
+        <div className={style.modalBackdrop}>
+            <div className={style.modal}>
+                <div className={style.modalHeader}>
+                    <h2 className={style.modalTitle}>Create New Task</h2>
+                    <button className={style.closeButton} onClick={toggleAddMode}>
+                        &times;
+                    </button>
+                </div>
 
-                    value={descriptionInput}
-                    onChange={handleDescriptionInputChange}
-                    type="text"
-                    placeholder="Enter task description"
-                />
-            </div>
-            <div >
-                <label >Status</label>
-                <select
-                    name="status"
-                    value={status}
-                    onChange={handleStatusChange}
-                >
-                    <option value="todo">To Do</option>
-                    <option value="doing">Doing</option>
-                    <option value="done">Done</option>
-                </select>
-            </div>
-            <div >
-                <label>Priority</label>
-                <select
-                    name="priority"
-                    value={priority}
-                    onChange={handlePriorityChange}
-                >
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                </select>
-            </div>
-            <div>
-                <label>
-                    Assign User:
-                    <select name="user" value={user} onChange={handleUserChange}>
-                        <option value="">Select a user</option>
+                <div className={style.formGroup}>
+                    <label className={style.formLabel}>Task Title*</label>
+                    <input
+                        className={style.formInput}
+                        value={titleInput}
+                        onChange={handleTitleInputChange}
+                        type="text"
+                        placeholder="e.g. Implement user dashboard"
+                        required
+                    />
+                </div>
+
+                <div className={style.formGroup}>
+                    <label className={style.formLabel}>Description</label>
+                    <textarea
+                        className={style.formTextarea}
+                        value={descriptionInput}
+                        onChange={handleDescriptionInputChange}
+                        placeholder="Describe the task details..."
+                        rows="4"
+                        maxLength="500"
+                    />
+                    {descriptionInput.length > 0 && (
+                        <div className={style.charCount}>
+                            {descriptionInput.length}/500
+                        </div>
+                    )}
+                </div>
+
+                <div className={style.formGroup}>
+                    <label className={style.formLabel}>Status</label>
+                    <select
+                        className={style.formSelect}
+                        name="status"
+                        value={status}
+                        onChange={handleStatusChange}
+                    >
+                        <option value="todo">To Do</option>
+                        <option value="doing">Doing</option>
+                        <option value="done">Done</option>
+                    </select>
+                </div>
+
+                <div className={style.formGroup}>
+                    <label className={style.formLabel}>Priority</label>
+                    <select
+                        className={style.formSelect}
+                        name="priority"
+                        value={priority}
+                        onChange={handlePriorityChange}
+                    >
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+
+                <div className={style.formGroup}>
+                    <label className={style.formLabel}>Assign To</label>
+                    <select
+                        className={style.formSelect}
+                        name="user"
+                        value={user}
+                        onChange={handleUserChange}
+                    >
+                        <option value="">Select team member</option>
                         {usersData.map((user) => (
                             <option key={user.userId} value={user.name}>
                                 {user.name}
                             </option>
                         ))}
                     </select>
-                </label>
+                </div>
+
+                <button
+                    className={style.submitButton}
+                    onClick={addTask}
+                    disabled={!titleInput}
+                >
+                    Create Task
+                </button>
             </div>
-            <button onClick={() => {
-                addTask();
-                toggleAddMode();
-            }}>
-                Create Task
-            </button>
-        </>
+        </div>
     );
 }
 
