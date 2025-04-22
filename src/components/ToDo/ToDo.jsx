@@ -1,6 +1,8 @@
+import { useState } from "react";
+import EditModal from "../EditModal/EditModal";
 import style from "./ToDo.module.css";
 
-function ToDo({ id, title, description, priority, status, usersData, user, handleDeleteTask }) {
+function ToDo({ id, title, description, priority, status, usersData, user, handleDeleteTask, editTitle, setTasks, editDescription, editUser, editPriority, editStatus }) {
     const [isEditMode, setIsEditMode] = useState(false);
     const assignedUser = usersData.find(u => u.name === user);
 
@@ -10,8 +12,9 @@ function ToDo({ id, title, description, priority, status, usersData, user, handl
 
     return (
         <div className={`${style.taskCard} ${style[`${status}Card`]}`} data-status={status}>
-            {}
-            <div>
+            {!isEditMode ? (
+                <>
+                <div>
                 <h4 className={style.taskTitle}>{title}</h4>
                 <p className={style.taskDescription}>{description}</p>
 
@@ -34,6 +37,25 @@ function ToDo({ id, title, description, priority, status, usersData, user, handl
             </div>
 
             <button onClick={handleEditMode}> + </button>
+                </>
+            ) : (
+                <EditModal 
+                editTitle={editTitle}
+                editDescription={editDescription}
+                editUser={editUser}
+                editPriority={editPriority}
+                editStatus={editStatus}
+                id={id}
+                title={title}
+                description={description}
+                priority={priority}
+                status={status} 
+                usersData={usersData}
+                handleEditMode={handleEditMode}
+                setTasks={setTasks} // Pass setTasks to EditModal
+                />
+            )}
+            
         </div>
     );
 }

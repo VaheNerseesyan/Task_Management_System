@@ -9,11 +9,11 @@
     position: relative;
     overflow: hidden;
 }
-
+/* 
 .taskCard:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
+} */
 
 .todoCard {
     border-left-color: #3b82f6;

@@ -13,8 +13,21 @@ function Tasks() {
     const [statusInput, setStatusInput] = useState("todo");
     const [priority, setPriorityInput] = useState("low");
     const [userInput, setUserInput] = useState("");
-    
-    
+
+    const editTitle = (id, newTitle) =>
+        setTasks(prev => prev.map(t => t.id === id ? { ...t, title: newTitle } : t));
+
+    const editDescription = (id, newDescription) =>
+        setTasks(prev => prev.map(t => t.id === id ? { ...t, description: newDescription } : t));
+
+    const editUser = (id, newUser) =>
+        setTasks(prev => prev.map(t => t.id === id ? { ...t, user: newUser } : t));
+
+    const editPriority = (id, newPriority) =>
+        setTasks(prev => prev.map(t => t.id === id ? { ...t, priority: newPriority } : t));
+
+    const editStatus = (id, newStatus) =>
+        setTasks(prev => prev.map(t => t.id === id ? { ...t, status: newStatus } : t));
 
     const genereateId = () => Math.random().toString(36).substring(2, 9)
 
@@ -133,6 +146,12 @@ function Tasks() {
                             {...task}
                             usersData={usersData}
                             handleDeleteTask={handleDeleteTask}
+                            editTitle={editTitle}
+                            editDescription={editDescription}
+                            editUser={editUser}
+                            editPriority={editPriority}
+                            editStatus={editStatus}
+                            setTasks={setTasks}
                         />
                     ))}
                 </div>
@@ -145,6 +164,12 @@ function Tasks() {
                             {...task}
                             usersData={usersData}
                             handleDeleteTask={handleDeleteTask}
+                            editTitle={editTitle}
+                            editDescription={editDescription}
+                            editUser={editUser}
+                            editPriority={editPriority}
+                            editStatus={editStatus}
+                            setTasks={setTasks}
                         />
                     ))}
                 </div>
@@ -157,6 +182,12 @@ function Tasks() {
                             {...task}
                             usersData={usersData}
                             handleDeleteTask={handleDeleteTask}
+                            editTitle={editTitle}
+                            editDescription={editDescription}
+                            editUser={editUser}
+                            editPriority={editPriority}
+                            editStatus={editStatus}
+                            setTasks={setTasks}
                         />
                     ))}
                 </div>
