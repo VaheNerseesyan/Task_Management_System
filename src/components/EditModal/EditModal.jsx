@@ -7,27 +7,26 @@ function EditModal({
     description,
     priority,
     status,
-    user,
     usersData,
-    editTitle,
-    editDescription,
-    editUser,
-    editPriority,
-    editStatus,
-    handleEditMode
+    editTask,
+    handleEditMode,
+    assignedUser
 }) {
     const [titleInput, setTitleInput] = useState(title);
     const [descriptionInput, setDescriptionInput] = useState(description);
     const [statusInput, setStatusInput] = useState(status);
     const [priorityInput, setPriorityInput] = useState(priority);
-    const [userInput, setUserInput] = useState(user);
+    const [userInput, setUserInput] = useState(assignedUser);
 
     const handleSave = () => {
-        editTitle(id, titleInput);
-        editDescription(id, descriptionInput);
-        editUser(id, userInput);
-        editPriority(id, priorityInput);
-        editStatus(id, statusInput);
+        editTask(
+            id,
+            titleInput,
+            descriptionInput,
+            userInput,
+            priorityInput,
+            statusInput
+        );
         handleEditMode();
     };
 

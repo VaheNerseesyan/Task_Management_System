@@ -1,12 +1,58 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import style from "./Tasks.module.css"
 import AddModal from "../AddModal/AddModal";
-import ToDo from "../ToDo/ToDo";
-import Done from "../Done/Done";
-import Doing from "../Doing/Doing";
+import TaskCard from "../TaskCard/TaskCard";
+
+const usersData = [
+    { userId: 1, name: "John Doe" },
+    { userId: 2, name: "Jane Smith" },
+    { userId: 3, name: "Alice Johnson" },
+    { userId: 4, name: "Bob Brown" },
+    { userId: 5, name: "Charlie Davis" },
+    { userId: 6, name: "Eve Wilson" },
+    { userId: 7, name: "Frank Miller" },
+    { userId: 8, name: "Grace Lee" },
+    { userId: 9, name: "Henry Taylor" },
+    { userId: 10, name: "Ivy Anderson" }
+]
+
+const actions = {
+    ADD_TASK: "ADD_TASK",
+    DELETE_TASK: "DELETE_TASK",
+    EDIT_TASK: "EDIT_TASK",
+    SET_TASKS: "SET_TASKS",
+    EDIT_TITLE: "EDIT_TITLE",
+    EDIT_DESCRIPTION: "EDIT_DESCRIPTION",
+    EDIT_USER: "EDIT_USER",
+    EDIT_PRIORITY: "EDIT_PRIORITY",
+    EDIT_STATUS: "EDIT_STATUS",
+}
+
+const reducer = (state, action) => {
+    const { type, payload } = action;
+    switch (type) {
+        case "ADD_TASK":
+            return [...state, payload];
+        case "DELETE_TASK":
+            return state.filter(task => task.id !== payload);
+        case 'EDIT_TASK':
+            return state.map(task =>
+                task.id === payload.id ? {
+                    ...task,
+                    title: payload.newTitle,
+                    description: payload.newDescription,
+                    user: payload.newUser,
+                    priority: payload.newPriority,
+                    status: payload.newStatus
+                } : task
+            );
+        default:
+            return state;
+    }
+};
 
 function Tasks() {
-    const [tasks, setTasks] = useState(JSON.parse(localStorage?.getItem("TASKS") ?? "[]"))
+    const [tasks, dispatch] = useReducer(reducer, JSON.parse(localStorage?.getItem("TASKS") ?? "[]"));
     const [isAddMode, setIsAddMode] = useState(false)
     const [titleInput, setTitleInput] = useState("");
     const [descriptionInput, setDescriptionInput] = useState("");
@@ -14,22 +60,20 @@ function Tasks() {
     const [priority, setPriorityInput] = useState("low");
     const [userInput, setUserInput] = useState("");
 
-    const editTitle = (id, newTitle) =>
-        setTasks(prev => prev.map(t => t.id === id ? { ...t, title: newTitle } : t));
+    const editTask = (id, newTitle, newDescription, newUser, newPriority, newStatus,) =>
+        dispatch({
+            type: actions.EDIT_TASK,
+            payload: {
+                id,
+                newTitle,
+                newDescription,
+                newUser,
+                newPriority,
+                newStatus
+            }
+        });
 
-    const editDescription = (id, newDescription) =>
-        setTasks(prev => prev.map(t => t.id === id ? { ...t, description: newDescription } : t));
-
-    const editUser = (id, newUser) =>
-        setTasks(prev => prev.map(t => t.id === id ? { ...t, user: newUser } : t));
-
-    const editPriority = (id, newPriority) =>
-        setTasks(prev => prev.map(t => t.id === id ? { ...t, priority: newPriority } : t));
-
-    const editStatus = (id, newStatus) =>
-        setTasks(prev => prev.map(t => t.id === id ? { ...t, status: newStatus } : t));
-
-    const genereateId = () => Math.random().toString(36).substring(2, 9)
+    const genereateId = () => Math.random()
 
     useEffect(() => {
         if (tasks.length > 0) {
@@ -39,29 +83,19 @@ function Tasks() {
         }
     }, [tasks]);
 
-    const usersData = [
-        { userId: 1, name: "John Doe" },
-        { userId: 2, name: "Jane Smith" },
-        { userId: 3, name: "Alice Johnson" },
-        { userId: 4, name: "Bob Brown" },
-        { userId: 5, name: "Charlie Davis" },
-        { userId: 6, name: "Eve Wilson" },
-        { userId: 7, name: "Frank Miller" },
-        { userId: 8, name: "Grace Lee" },
-        { userId: 9, name: "Henry Taylor" },
-        { userId: 10, name: "Ivy Anderson" }
-    ]
-
     const addTask = () => {
         if (titleInput && descriptionInput) {
-            setTasks([...tasks, {
-                id: genereateId(),
-                title: titleInput,
-                description: descriptionInput,
-                status: statusInput || "todo",
-                priority: priority || "low",
-                user: userInput
-            }])
+            dispatch({
+                type: actions.ADD_TASK,
+                payload: {
+                    id: genereateId(),
+                    title: titleInput,
+                    description: descriptionInput,
+                    status: statusInput || "todo",
+                    priority: priority || "low",
+                    user: userInput
+                }
+            })
             setTitleInput("");
             setDescriptionInput("");
             setStatusInput("");
@@ -96,7 +130,7 @@ function Tasks() {
     }
 
     const handleDeleteTask = (taskId) => {
-        setTasks(tasks.filter(task => task.id !== taskId))
+        dispatch({ type: actions.DELETE_TASK, payload: taskId });
     }
 
     console.log(tasks)
@@ -139,60 +173,21 @@ function Tasks() {
             )}
 
             <div className={style.columns}>
-                <div className={`${style.column} ${style.todoColumn}`}>
-                    <h3 className={style.columnTitle}>To Do</h3>
-                    {tasks.filter(task => task.status === "todo").map((task) => (
-                        <ToDo
-                            key={task.id}
-                            id={task.id}
-                            {...task}
-                            usersData={usersData}
-                            handleDeleteTask={handleDeleteTask}
-                            editTitle={editTitle}
-                            editDescription={editDescription}
-                            editUser={editUser}
-                            editPriority={editPriority}
-                            editStatus={editStatus}
-                            setTasks={setTasks}
-                        />
-                    ))}
-                </div>
-                <div className={`${style.column} ${style.doingColumn}`}>
-                    <h3 className={style.columnTitle}>Doing</h3>
-                    {tasks.filter(task => task.status === "doing").map((task) => (
-                        <Doing
-                            key={task.id}
-                            id={task.id}
-                            {...task}
-                            usersData={usersData}
-                            handleDeleteTask={handleDeleteTask}
-                            editTitle={editTitle}
-                            editDescription={editDescription}
-                            editUser={editUser}
-                            editPriority={editPriority}
-                            editStatus={editStatus}
-                            setTasks={setTasks}
-                        />
-                    ))}
-                </div>
-                <div className={`${style.column} ${style.doneColumn}`}>
-                    <h3 className={style.columnTitle}>Done</h3>
-                    {tasks.filter(task => task.status === "done").map((task) => (
-                        <Done
-                            key={task.id}
-                            id={task.id}
-                            {...task}
-                            usersData={usersData}
-                            handleDeleteTask={handleDeleteTask}
-                            editTitle={editTitle}
-                            editDescription={editDescription}
-                            editUser={editUser}
-                            editPriority={editPriority}
-                            editStatus={editStatus}
-                            setTasks={setTasks}
-                        />
-                    ))}
-                </div>
+                {["todo", "doing", "done"].map((statusKey) => (
+                    <div key={statusKey} className={`${style.column} ${style[`${statusKey}Column`]}`}>
+                        <h3 className={style.columnTitle}>{statusKey.charAt(0).toUpperCase() + statusKey.slice(1)}</h3>
+                        {tasks.filter(task => task.status === statusKey).map((task) => (
+                            <TaskCard
+                                key={task.id}
+                                id={task.id}
+                                {...task}
+                                usersData={usersData}
+                                handleDeleteTask={handleDeleteTask}
+                                editTask={editTask}
+                            />
+                        ))}
+                    </div>
+                ))}
             </div>
         </div>
     )
