@@ -34,6 +34,8 @@ function Tasks() {
     useEffect(() => {
         if (tasks.length > 0) {
             localStorage.setItem("TASKS", JSON.stringify(tasks));
+        } else {
+            localStorage.removeItem("TASKS");
         }
     }, [tasks]);
 
