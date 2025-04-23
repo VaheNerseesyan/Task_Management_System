@@ -164,7 +164,6 @@ function Tasks() {
     return (
         <div className={style.container}>
             <div className={style.header}>
-                <h1 className={style.appTitle}>Task Board</h1>
                 <button className={style.addButton} onClick={() => toggleAddMode()}>
                     <span>+</span> Add Task
                 </button>
