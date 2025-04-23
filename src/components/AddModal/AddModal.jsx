@@ -45,7 +45,6 @@ function AddModal({
                         onChange={handleDescriptionInputChange}
                         placeholder="Describe the task details..."
                         rows="4"
-                        maxLength="500"
                     />
                 </div>
 

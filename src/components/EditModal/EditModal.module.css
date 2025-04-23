@@ -107,13 +107,6 @@
     background-color: white;
 }
 
-.charCount {
-    font-size: 12px;
-    color: #6b7280;
-    text-align: right;
-    margin-top: 4px;
-}
-
 .formSelect {
     width: 100%;
     padding: 12px;

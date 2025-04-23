@@ -62,11 +62,7 @@ function EditModal({
                         value={descriptionInput}
                         onChange={e => setDescriptionInput(e.target.value)}
                         rows={4}
-                        maxLength={500}
                     />
-                    <div className={style.charCount}>
-                        {descriptionInput.length}/500
-                    </div>
                 </div>
 
                 <div className={style.formGroup}>
