@@ -4,16 +4,16 @@ import AddModal from "../AddModal/AddModal";
 import TaskCard from "../TaskCard/TaskCard";
 
 const usersData = [
-    { userId: 1, name: "John Doe" },
-    { userId: 2, name: "Jane Smith" },
-    { userId: 3, name: "Alice Johnson" },
-    { userId: 4, name: "Bob Brown" },
-    { userId: 5, name: "Charlie Davis" },
-    { userId: 6, name: "Eve Wilson" },
-    { userId: 7, name: "Frank Miller" },
-    { userId: 8, name: "Grace Lee" },
-    { userId: 9, name: "Henry Taylor" },
-    { userId: 10, name: "Ivy Anderson" }
+    { userId: 1, name: "Vahe Nersesyan" },
+    { userId: 2, name: "Vache Aseyan" },
+    { userId: 3, name: "Artur Bagramyan" },
+    { userId: 4, name: "Elmira Avagyan" },
+    { userId: 5, name: "Mushegh Andreasyan" },
+    { userId: 6, name: "Hovhannes Kocharyan" },
+    { userId: 7, name: "Ani Hovhannisyan" },
+    { userId: 8, name: "Arayik Avagyan" },
+    { userId: 9, name: "Arsen Barseghyan" },
+    { userId: 10, name: "David Sargsyan" }
 ];
 
 const actions = {
