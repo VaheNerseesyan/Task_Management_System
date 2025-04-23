@@ -114,12 +114,18 @@ function EditModal({
                 <div className={style.buttonRow}>
                     <button
                         className={style.cancelButton}
-                        onClick={handleEditMode}>Cancel
+                        onClick={handleEditMode}
+                        type="button"
+                    >
+                        Cancel
                     </button>
                     <button
                         className={style.submitButton}
                         onClick={handleSave}
-                        disabled={!titleInput.trim()}>Save</button>
+                        disabled={!titleInput.trim()}
+                    >
+                        Save
+                    </button>
                 </div>
             </div>
         </div>

@@ -70,7 +70,7 @@
 }
 
 .formInput {
-    width: 100%;
+    width: 94.5%;
     padding: 12px;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -87,17 +87,25 @@
     background-color: white;
 }
 
+.readOnlyField {
+    padding: 10px;
+    background-color: #f1f5f9;
+    border-radius: 6px;
+    color: #334155;
+}
+
+
 .formTextarea {
-    width: 100%;
+    width: 94.5%;
     padding: 12px;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     font-size: 14px;
     color: #111827;
     background-color: #f9fafb;
-    transition: all 0.2s ease;
     min-height: 100px;
-    resize: vertical;
+    max-height: 180px;
+    resize: block;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 

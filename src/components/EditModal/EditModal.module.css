@@ -72,7 +72,7 @@
 }
 
 .formInput {
-    width: 100%;
+    width: 94.5%;
     padding: 12px;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -90,19 +90,18 @@
 }
 
 .formTextarea {
-    width: 100%;
+    width: 94.5%;
     padding: 12px;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     font-size: 14px;
     color: #111827;
     background-color: #f9fafb;
-    transition: all 0.2s ease;
     min-height: 100px;
-    resize: vertical;
+    max-height: 180px;
+    resize: block;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
-
 .formTextarea:focus {
     outline: none;
     border-color: #4f46e5;
@@ -166,4 +165,45 @@
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+}
+
+/* Add to your existing styles */
+.buttonRow {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.cancelButton {
+    background-color: #4d4d4d;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+    margin-top: 8px;
+}
+
+.cancelButton:hover {
+    background-color: #313131;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cancelButton:active {
+    background-color: #f3f4f6;
+    transform: translateY(0);
+}
+
+.submitButton {
+    width: 50%; 
+}
+
+.cancelButton {
+    width: 50%;
 }

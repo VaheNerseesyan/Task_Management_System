@@ -12,8 +12,8 @@ function AddModal({
     handleStatusChange,
     handlePriorityChange,
     handleUserChange,
-    addTask, 
-    toggleAddMode
+    addTask,
+    toggleAddMode,
 }) {
     return (
         <div className={style.modalBackdrop}>
@@ -47,25 +47,21 @@ function AddModal({
                         rows="4"
                         maxLength="500"
                     />
-                    {descriptionInput.length > 0 && (
-                        <div className={style.charCount}>
-                            {descriptionInput.length}/500
-                        </div>
-                    )}
                 </div>
 
                 <div className={style.formGroup}>
                     <label className={style.formLabel}>Status</label>
-                    <select
-                        className={style.formSelect}
-                        name="status"
-                        value={status}
-                        onChange={handleStatusChange}
-                    >
-                        <option value="todo">To Do</option>
-                        <option value="doing">Doing</option>
-                        <option value="done">Done</option>
-                    </select>
+                        <select
+                            className={style.formSelect}
+                            name="status"
+                            value={status}
+                            onChange={handleStatusChange}
+                        >
+                            <option value="todo">To Do</option>
+                            <option value="doing">Doing</option>
+                            <option value="done">Done</option>
+                        </select>
+                    
                 </div>
 
                 <div className={style.formGroup}>
@@ -102,7 +98,7 @@ function AddModal({
                 <button
                     className={style.submitButton}
                     onClick={addTask}
-                    disabled={!titleInput}
+                    disabled={!titleInput || !descriptionInput}
                 >
                     Create Task
                 </button>
