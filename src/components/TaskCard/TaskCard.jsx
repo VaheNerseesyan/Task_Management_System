@@ -11,39 +11,40 @@ function TaskCard({ id, title, description, priority, status, usersData, user, h
     };
 
     return (
-        <div className={`${style.taskCard} ${style[`${status}Card`]}`} data-status={status}>
+        <div className={`${style.taskCard} ${style[status]}`}>
             {!isEditMode ? (
                 <>
-                    <div>
+                    <div className={style.taskHeader}>
+                        <div className={style.priorityIndicator} data-priority={priority}></div>
                         <h4 className={style.taskTitle}>{title}</h4>
-                        <p className={style.taskDescription}>{description}</p>
-
-                        <div className={style.taskMeta}>
-                            <span className={`${style.taskBadge} ${style[`priority${priority.charAt(0).toUpperCase() + priority.slice(1)}`]}`}>
-                                {priority} Priority
-                            </span>
-                        </div>
-
-                        {assignedUser && (
-                            <div className={style.assignee}>
-                                <div>
-                                    <span className={style.assigneeLabel}>Assigned to:</span>
-                                    <span className={style.assigneeName}>{assignedUser.name}</span>
-                                </div>
-                            </div>
-                        )}
-
                     </div>
                     
+                    <p className={style.taskDescription}>{description}</p>
+
+                    <div className={style.taskMeta}>
+                        <span className={`${style.taskBadge} ${style[priority]}`}>
+                            {priority} Priority
+                        </span>
+                        <span className={`${style.statusBadge} ${style[status]}`}>
+                            {status}
+                        </span>
+                    </div>
+
+                    {assignedUser && (
+                        <div className={style.assignee}>
+                            <span className={style.assigneeLabel}>Assigned to:</span>
+                            <span className={style.assigneeName}>{assignedUser.name}</span>
+                        </div>
+                    )}
+                    
                     <div className={style.taskButtons}>
-                        <button className={`${style.button} ${style.deleteButton}`} onClick={() => handleDeleteTask(id)}>
-                            Delete
-                        </button>
                         <button className={`${style.button} ${style.editButton}`} onClick={handleEditMode}>
                             Edit
                         </button>
+                        <button className={`${style.button} ${style.deleteButton}`} onClick={() => handleDeleteTask(id)}>
+                            Delete
+                        </button>
                     </div>
-
                 </>
             ) : (
                 <EditModal
