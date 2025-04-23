@@ -136,7 +136,7 @@
 }
 
 .tasksContainer:empty::after {
-    content: "No tasks here";
+    content: "Empty";
     color: #94a3b8;
     font-size: 14px;
     text-align: center;
